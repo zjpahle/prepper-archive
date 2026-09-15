@@ -1,0 +1,12 @@
+services:
+  kiwix-serve:
+    image: ghcr.io/kiwix/kiwix-serve:latest
+    container_name: kiwix-serve
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    volumes:
+      # EDIT THIS: point at the folder on the NAS holding your .zim files
+      - /volume1/archive/zim:/data:ro
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["kiwix-serve --port 8080 /data/*.zim"]

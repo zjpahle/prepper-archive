@@ -1,0 +1,8 @@
+# Downloaded content is huge (~200GB+) and lives on the NAS, not in the repo
+content/
+
+# Rolling log from the download script
+download-log.txt
+
+# Stray BITS/partial download artifacts
+*.tmp

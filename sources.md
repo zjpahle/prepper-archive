@@ -20,9 +20,9 @@ the category folder above (or https://hub.kiwix.org/downloads/) for the current 
 | 7 | iFixit repair guides (en) | `ifixit_en_all_2025-12.zim` | 3.3G | https://lb.download.kiwix.org/zim/ifixit/ifixit_en_all_2025-12.zim |
 | 8 | Appropedia (off-grid/sustainability wiki) | `appropedia_en_all_maxi_2026-02.zim` | 555M | https://lb.download.kiwix.org/zim/other/appropedia_en_all_maxi_2026-02.zim |
 | 9 | WikEM (emergency medicine reference) | `wikem_en_all_maxi_2026-07.zim` | 357M | https://lb.download.kiwix.org/zim/other/wikem_en_all_maxi_2026-07.zim |
-| 10 | Hesperian — Where There Is No Doctor | PDF | ~40M | https://hesperian.org/wp-content/uploads/pdf/en_wwhnd_2023/en_wwhnd_2023_ob.pdf |
-| 11 | US Army FM 4-25.11 First Aid | PDF (Internet Archive, public domain) | ~15M | https://archive.org/details/FM4-25.11 |
-| 12 | US Army FM 3-05.70 Survival | PDF | ~10M | https://irp.fas.org/doddir/army/fm3-05-70.pdf |
+| 10 | Hesperian — Where There Is No Doctor | PDF | 253K (verified) | https://hesperian.org/wp-content/uploads/pdf/en_wwhnd_2023/en_wwhnd_2023_ob.pdf |
+| 11 | US Army FM 4-25.11 First Aid | PDF (Internet Archive, public domain) | ~15M | https://archive.org/download/FM4-25.11/FM4-25.11.pdf |
+| 12 | US Army FM 3-05.70 Survival | PDF (Internet Archive, public domain) | 20M | https://archive.org/download/fm-3-05.70-survival-2002/FM%203-05.70%20Survival%20%202002.pdf |
 | 13 | Ubuntu 24.04 LTS Desktop (amd64) | `ubuntu-24.04.4-desktop-amd64.iso` | 6.2G | https://releases.ubuntu.com/24.04/ubuntu-24.04.4-desktop-amd64.iso |
 | 14 | Debian 13 netinst (amd64) | `debian-13.7.0-amd64-netinst.iso` | 756M | https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.7.0-amd64-netinst.iso |
 | 15 | Raspberry Pi OS (arm64, latest, stable alias) | image.img.xz | ~1G | https://downloads.raspberrypi.org/raspios_arm64_latest |
@@ -30,6 +30,13 @@ the category folder above (or https://hub.kiwix.org/downloads/) for the current 
 | 17 | VLC 3.0.23 (win64) | `vlc-3.0.23-win64.exe` | 44M | https://get.videolan.org/vlc/last/win64/vlc-3.0.23-win64.exe |
 | 18 | Sysinternals Suite (always-current link) | `SysinternalsSuite.zip` | ~50M | https://download.sysinternals.com/files/SysinternalsSuite.zip |
 | 19 | 7-Zip, Notepad++, LibreOffice, GIMP | Installers | ~1.5G | vendor download pages — versioned filenames change often, see note below |
+
+**Note on #12:** originally sourced from `irp.fas.org`, but that host sits behind an AWS WAF bot-challenge that
+blocks scripted downloads entirely (returns HTTP 202 forever). Swapped to the Internet Archive copy instead.
+
+**Note on #10:** Hesperian's server doesn't send a `Content-Length` header (likely due to on-the-fly
+compression behind Cloudflare), which BITS can't handle — it needs a plain HTTP client instead. The file
+itself is genuinely small (253KB), not a partial/broken download.
 
 **Note on #19:** 7-Zip (https://www.7-zip.org/download.html), Notepad++ (https://notepad-plus-plus.org/downloads/),
 LibreOffice (https://www.libreoffice.org/download/download-libreoffice/), and GIMP (https://www.gimp.org/downloads/)

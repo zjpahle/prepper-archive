@@ -66,32 +66,46 @@ foreach ($item in $items) {
         $job = Start-BitsTransfer -Source $item.url -Destination $destPath -DisplayName $item.name -Asynchronous -ErrorAction Stop
     }
 
+    $retryCount = 0
+    $maxRetries = 3
+    $fellBackToHttp = $false
+
     while ($true) {
         $job = Get-BitsTransfer -JobId $job.JobId -ErrorAction SilentlyContinue
         if (-not $job) { Write-Host "FAIL  $($item.name): job disappeared" -ForegroundColor Red; break }
 
-        switch ($job.JobState) {
-            "Transferred" {
-                Complete-BitsTransfer -BitsJob $job
-                Write-Host "DONE  $($item.name)" -ForegroundColor Green
+        if ($job.JobState -eq "Transferred") {
+            Complete-BitsTransfer -BitsJob $job
+            Write-Host "DONE  $($item.name)" -ForegroundColor Green
+            break
+        }
+        elseif ($job.JobState -in "Error", "TransientError") {
+            $retryCount++
+            if ($retryCount -gt $maxRetries) {
+                # Some servers (e.g. no Content-Length on a compressed response) BITS can't handle at all.
+                Write-Host "FALLBACK $($item.name): BITS failed $maxRetries times, trying a plain HTTP download instead" -ForegroundColor Magenta
+                Remove-BitsTransfer -BitsJob $job -ErrorAction SilentlyContinue
+                try {
+                    Invoke-WebRequest -Uri $item.url -OutFile $destPath -ErrorAction Stop
+                    Write-Host "DONE  $($item.name) (via HTTP fallback)" -ForegroundColor Green
+                } catch {
+                    Write-Host "FAIL  $($item.name): $($_.Exception.Message)" -ForegroundColor Red
+                    if (Test-Path $destPath) { Remove-Item $destPath -Force -ErrorAction SilentlyContinue }
+                }
+                $fellBackToHttp = $true
                 break
             }
-            { $_ -in "Error", "TransientError" } {
-                Write-Host "RETRY $($item.name): $($job.ErrorDescription)" -ForegroundColor Red
-                Resume-BitsTransfer -BitsJob $job -Asynchronous -ErrorAction SilentlyContinue
-                Start-Sleep -Seconds 10
-                continue
-            }
-            default {
-                $pct = if ($job.BytesTotal -gt 0) { [math]::Round(100 * $job.BytesTransferred / $job.BytesTotal, 1) } else { 0 }
-                Write-Host "`r      $($item.name): $pct% ($([math]::Round($job.BytesTransferred/1GB,1))GB / $([math]::Round($job.BytesTotal/1GB,1))GB) [$($job.JobState)]" -NoNewline -ForegroundColor Yellow
-                Start-Sleep -Seconds 15
-                continue
-            }
+            Write-Host "RETRY $($item.name) (attempt $retryCount/$maxRetries): $($job.ErrorDescription)" -ForegroundColor Red
+            Resume-BitsTransfer -BitsJob $job -Asynchronous -ErrorAction SilentlyContinue
+            Start-Sleep -Seconds 10
         }
-        break
+        else {
+            $pct = if ($job.BytesTotal -gt 0) { [math]::Round(100 * $job.BytesTransferred / $job.BytesTotal, 1) } else { 0 }
+            Write-Host "`r      $($item.name): $pct% ($([math]::Round($job.BytesTransferred/1GB,1))GB / $([math]::Round($job.BytesTotal/1GB,1))GB) [$($job.JobState)]" -NoNewline -ForegroundColor Yellow
+            Start-Sleep -Seconds 15
+        }
     }
-    Write-Host ""
+    if (-not $fellBackToHttp) { Write-Host "" }
 }
 
 Write-Host ""

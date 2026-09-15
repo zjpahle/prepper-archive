@@ -13,9 +13,9 @@
     { "category": "zim", "name": "appropedia_en_all_maxi_2026-02.zim", "url": "https://lb.download.kiwix.org/zim/other/appropedia_en_all_maxi_2026-02.zim", "approxSizeGB": 0.555 },
     { "category": "zim", "name": "wikem_en_all_maxi_2026-07.zim", "url": "https://lb.download.kiwix.org/zim/other/wikem_en_all_maxi_2026-07.zim", "approxSizeGB": 0.357 },
 
-    { "category": "docs", "name": "hesperian_where_there_is_no_doctor_2023.pdf", "url": "https://hesperian.org/wp-content/uploads/pdf/en_wwhnd_2023/en_wwhnd_2023_ob.pdf", "approxSizeGB": 0.04 },
+    { "category": "docs", "name": "hesperian_where_there_is_no_doctor_2023.pdf", "url": "https://hesperian.org/wp-content/uploads/pdf/en_wwhnd_2023/en_wwhnd_2023_ob.pdf", "approxSizeGB": 0.00025 },
     { "category": "docs", "name": "FM_4-25.11_First_Aid.pdf", "url": "https://archive.org/download/FM4-25.11/FM4-25.11.pdf", "approxSizeGB": 0.015 },
-    { "category": "docs", "name": "FM_3-05.70_Survival.pdf", "url": "https://irp.fas.org/doddir/army/fm3-05-70.pdf", "approxSizeGB": 0.01 },
+    { "category": "docs", "name": "FM_3-05.70_Survival.pdf", "url": "https://archive.org/download/fm-3-05.70-survival-2002/FM%203-05.70%20Survival%20%202002.pdf", "approxSizeGB": 0.02 },
 
     { "category": "software", "name": "ubuntu-24.04.4-desktop-amd64.iso", "url": "https://releases.ubuntu.com/24.04/ubuntu-24.04.4-desktop-amd64.iso", "approxSizeGB": 6.2 },
     { "category": "software", "name": "debian-13.7.0-amd64-netinst.iso", "url": "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.7.0-amd64-netinst.iso", "approxSizeGB": 0.756 },
